@@ -368,7 +368,7 @@ def cmd_test(args: argparse.Namespace) -> int:
             print("警告：扫描时未找到目标 SSID，将回退为 WPA2PSK 配置。")
 
     print(f"正在使用无线网卡 [{args.iface_index}] {clean_one_line(iface.name())} 测试 SSID={clean_one_line(args.ssid)}。")
-    print("密码候选值不会输出到终端。")
+    print("密码候选值不会逐条输出到终端，命中成功的密码会在结果中显示。")
 
     attempts = 0
     try:
@@ -382,7 +382,7 @@ def cmd_test(args: argparse.Namespace) -> int:
             attempts += 1
             print(f"第 {attempts} 次尝试（来源：{source}）...")
             if connect_once(api, iface, args.ssid, password, args.security, args.connect_time, scanned_profile):
-                print(f"测试成功：SSID={clean_one_line(args.ssid)} 接受了第 {attempts} 个候选密码。")
+                print(f"测试成功：SSID={clean_one_line(args.ssid)} 获取到的正确密码：[{password}]（第 {attempts} 个候选密码，来源：{source}）")
                 return 0
 
         print(f"已完成 {attempts} 次尝试，未发现可成功连接的候选密码。")
